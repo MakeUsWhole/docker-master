@@ -1,0 +1,48 @@
+version: "3.9"
+
+services:
+  sv00apptest01:
+    image: bulanovas/server1c:8.3.19.1417df
+    volumes:
+      - "./1c/cache:/home/usr1cv8/.1cv8/1C/1cv8"
+      - "./1c/licenses:/var/1C/licenses"
+      - "./1c/tmp:/tmp"
+    networks:
+      - 1c
+    hostname: sv00apptest01
+    ports:
+      - "1540:1540"
+      - "1541:1541"
+      - "1560-1591:1560-1591"
+    tty: true
+    container_name: server1c
+
+
+  apache_1c:
+    image: bulanovas/apache1c:8.3.19.1417df
+    volumes:
+      - "./httpd/sites:/var/www/1c"
+      - "./httpd/1c.conf:/etc/apache2/sites-available/1c.conf"
+      - "./httpd/log:/var/log/apache2"
+    networks:
+      - 1c
+    hostname: sv00webtest01
+    ports:
+      - "80:80"
+      - "443:443"
+    container_name: apache1c
+
+
+  pg_1c:
+    image: bulanovas/postgres1c:12.5-3.1C
+    volumes:
+      - "./pg/data:/var/lib/postgresql/data"
+      - "./pg/backup:/backup"
+    environment:
+      - POSTGRES_PASSWORD="12345"
+    networks:
+      - 1c
+    ports:
+      - "5432:5432"
+    container_name: postgres1c
+
