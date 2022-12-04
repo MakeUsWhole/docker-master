@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
   sv00apptest01:
-    image: bulanovas/server1c:8.3.19.1417df
+    image: bulanovas/server1c:8.3.21.1622df
     volumes:
       - "./1c/cache:/home/usr1cv8/.1cv8/1C/1cv8"
       - "./1c/licenses:/var/1C/licenses"
@@ -19,7 +19,7 @@ services:
 
 
   apache_1c:
-    image: bulanovas/apache1c:8.3.19.1417df
+    image: bulanovas/apache1c:8.3.21.1622df
     volumes:
       - "./httpd/sites:/var/www/1c"
       - "./httpd/1c.conf:/etc/apache2/sites-available/1c.conf"
@@ -46,3 +46,6 @@ services:
       - "5432:5432"
     container_name: postgres1c
 
+networks:
+  1c:
+    external: true
